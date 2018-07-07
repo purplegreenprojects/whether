@@ -1,0 +1,50 @@
+html, body, #container {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	height: 100vh;
+	width: 100vw;
+/*	background-color: lightblue;
+*/}
+
+#blackBackground {
+	background-color: black;
+	height: 100vh;
+	width: 100vw;
+	position: absolute;
+	z-index: 10;
+}
+
+#surface {
+	position: absolute;
+	bottom: 0vh;
+	left: 0px;
+	height: 30vh;
+	width: 100vw;
+	background-color: lightgray;
+	opacity: 0;
+}
+
+.raindropA {
+	background-image: url("raindropA.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+}
+
+.raindropSplash1 {
+	background-image: url("raindropSplash1.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+}
+
+.raindropPuddle {
+	background-image: url("raindropPuddle.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+}
