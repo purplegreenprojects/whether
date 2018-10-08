@@ -1,84 +1,5 @@
-window.onload = function(){
+window.addEventListener("load", function(){
 
-	/*** global variables ***/
-		var msecpb
-		var bpMeasure
-
-	/*** components ***/
-		// dropRain(1, 2, "raindropA", "raindropSplash1", 20, 1000, 175, 50)
-			function dropRain(measure, beat, raindropType, splashType, left, startBottom, endBottom, size) {
-				setTimeout(function(){
-					var windowWidth = window.innerWidth / 100
-					var windowHeight = window.innerHeight / 100
-
-					var raindrop = document.createElement("div")
-						raindrop.style.left = left * windowWidth + "px"
-						raindrop.style.bottom = startBottom * windowHeight + "px"
-						raindrop.style.height = size * windowHeight + "px"
-						raindrop.style.width = size * windowWidth + "px"
-						raindrop.className = raindropType
-					document.getElementById("container").appendChild(raindrop)
-
-					var timer = 0
-					var loop = setInterval(function(){
-						var currentBottom = Number(raindrop.style.bottom.replace("px", "")) / windowHeight
-
-						if (currentBottom > endBottom) {
-							timer += 10
-							currentBottom = (-0.0001 * Math.pow(timer, 2) * windowHeight) + (startBottom * windowHeight)
-							raindrop.style.bottom = currentBottom + "px"
-						}
-						else {
-							clearInterval(loop)
-							raindrop.className = splashType
-							
-							setTimeout(function() {
-								raindrop.style.bottom = endBottom * windowHeight + 5 + "px"
-								raindrop.className = "raindropPuddle"
-							}, 50)
-						}
-					}, 10)
-				}, ((measure - 1) * msecpb * bpMeasure) + ((beat - 1) * msecpb))
-				// MATH to MUSIC conversion (measure 1 is really measure 0; same with beats)
-			}
-
-		// fadeOut
-			function fadeOut(measure, beat, time, object) {
-				setTimeout(function(){
-					var loop = setInterval(function(){
-						var opacity = window.getComputedStyle(object).opacity
-
-						if (opacity > 0) {
-							opacity = opacity - 0.01
-							object.style.opacity = opacity
-						}
-						else {
-							object.remove()
-							clearInterval(loop)
-						}
-					}, time / 100)
-
-				}, ((measure - 1) * msecpb * bpMeasure) + ((beat - 1) * msecpb))
-			}
-
-		// fadeIn
-			function fadeIn(measure, beat, time, object) {
-				setTimeout(function(){
-					var loop = setInterval(function(){
-						var opacity = Number(window.getComputedStyle(object).opacity)
-						console.log(opacity)
-						if (opacity < 1) {
-							opacity = opacity + 0.01
-							object.style.opacity = opacity
-						}
-						else {
-							clearInterval(loop)
-						}
-					}, time / 100)
-
-				}, ((measure - 1) * msecpb * bpMeasure) + ((beat - 1) * msecpb))
-			}
-	
 	/*** performance ***/
 		var going = false
 		document.addEventListener("click", playWhether)
@@ -87,81 +8,540 @@ window.onload = function(){
 			if (going == false) {
 				going = true
 
-				fadeOut(1, 1, 800, document.getElementById("blackBackground"))
-				fadeIn(1, 1, 1000, document.getElementById("surface"))
+				// start clock
+					setInterval(function() {
+						var time = Number(document.getElementById("clock").innerText)
+							time++
+							document.getElementById("clock").innerText = time
+					}, 1000)
 
-				setTimeout(function(){
-					document.getElementById("musicPlayer").play()
-				}, 1200)
+					fadeOut(1, 1, 0, 800, document.getElementById("blackBackground"))
+					removeObject(1, 1, 800, document.getElementById("blackBackground"))
+					fadeIn( 1, 1, 0, 1000, document.getElementById("surface"))
 
-			// section 1
-				msecpb = 800
-				bpMeasure = 4
+					setTimeout(function(){
+						document.getElementById("musicPlayer").play()
+					}, 1200)
 
+		//rehearsal A
+				window.msecpb = 800
+				window.bpMeasure = 4
 			// 1
-				dropRain(1, 1.5, "raindropA", "raindropSplash1", 15, 130, 10, 15)
-				dropRain(1,   2, "raindropA", "raindropSplash1", 30, 140, 20, 8)
-				dropRain(1,   3, "raindropA", "raindropSplash1", 55, 135, 15, 12)
-				dropRain(1, 3.5, "raindropA", "raindropSplash1", 75, 140, 20, 8)
+				dropRain(1, 1.5, 0, "raindropA", "raindropSplash1", 15, 130, 10, 15)
+				dropRain(1,   2, 0, "raindropA", "raindropSplash1", 30, 140, 20, 8)
+				dropRain(1,   3, 0, "raindropA", "raindropSplash1", 55, 135, 15, 12)
+				dropRain(1, 3.5, 0, "raindropA", "raindropSplash1", 75, 140, 20, 8)
 
 			// 2
-				dropRain(2, 1.5, "raindropA", "raindropSplash2", 40, 128, 7, 15)
-				dropRain(2,   2, "raindropA", "raindropSplash3", 90, 135, 15, 10)
-				dropRain(2,   3, "raindropA", "raindropSplash1", 64, 120, 5, 15)
-				dropRain(2, 3.5, "raindropA", "raindropSplash1", 8, 140, 20, 10)
+				dropRain(2, 1.5, 0, "raindropA", "raindropSplash2", 40, 128, 7, 15)
+				dropRain(2,   2, 0, "raindropA", "raindropSplash3", 90, 135, 15, 10)
+				dropRain(2,   3, 0, "raindropA", "raindropSplash1", 64, 120, 5, 15)
+				dropRain(2, 3.5, 0, "raindropA", "raindropSplash1", 8, 140, 20, 10)
 
 			// 3
-				dropRain(3,   2, "raindropA", "raindropSplash1", 20, 145, 25, 5)
-				dropRain(3, 2.5, "raindropA", "raindropSplash1", 40, 146, 26, 5)
-				dropRain(3,   3, "raindropA", "raindropSplash1", 60, 145, 25, 5)
-				dropRain(3, 3.5, "raindropA", "raindropSplash1", 80, 146, 26, 5)
+				dropRain(3,   2, 0, "raindropA", "raindropSplash1", 20, 145, 25, 5)
+				dropRain(3, 2.5, 0, "raindropA", "raindropSplash1", 40, 146, 26, 5)
+				dropRain(3,   3, 0, "raindropA", "raindropSplash1", 60, 145, 25, 5)
+				dropRain(3, 3.5, 0, "raindropA", "raindropSplash1", 80, 146, 26, 5)
 
 			// 4
-				dropRain(4,   1, "raindropA", "raindropSplash1", 2, 145, 8, 12)
-				dropRain(4,   2, "raindropA", "raindropSplash1", 47, 135, 18, 8)
-				dropRain(4,   3, "raindropA", "raindropSplash1", 85, 145, 10, 8.8)
-				dropRain(4, 3.5, "raindropA", "raindropSplash1", 92, 146, 26, 4)
+				dropRain(4,   1, 0, "raindropA", "raindropSplash1", 2, 145, 8, 12)
+				dropRain(4,   2, 0, "raindropA", "raindropSplash1", 47, 135, 18, 8)
+				dropRain(4,   3, 0, "raindropA", "raindropSplash1", 85, 145, 10, 8.8)
+				dropRain(4, 3.5, 0, "raindropA", "raindropSplash1", 92, 146, 26, 4)
 
 			// 5 
-				dropRain(5,   1, "raindropA", "raindropSplash1", 5, 140, 19, 5)
-				dropRain(5, 1.5, "raindropA", "raindropSplash1", 32, 127, 7, 7)
-				dropRain(5, 2.5, "raindropA", "raindropSplash1", 69, 140, 19, 8)
-				dropRain(5,   3, "raindropA", "raindropSplash1", 59, 126, 6, 9)
-				dropRain(5,   4, "raindropA", "raindropSplash1", 41, 136, 16, 8)
-				dropRain(5, 4.5, "raindropA", "raindropSplash1", 84, 136, 16, 4)
+				dropRain(5,   1, 0, "raindropA", "raindropSplash1", 5, 140, 19, 5)
+				dropRain(5, 1.5, 0, "raindropA", "raindropSplash1", 32, 127, 7, 7)
+				dropRain(5, 2.5, 0, "raindropA", "raindropSplash1", 69, 140, 19, 8)
+				dropRain(5,   3, 0, "raindropA", "raindropSplash1", 59, 126, 6, 9)
+				dropRain(5,   4, 0, "raindropA", "raindropSplash1", 41, 136, 16, 8)
+				dropRain(5, 4.5, 0, "raindropA", "raindropSplash1", 84, 136, 16, 4)
 
 				// snare
-				dropRain(5, 1.5, "raindropA", "raindropSplash1", 79, 133, 13, 8)
-				dropRain(5,   2, "raindropA", "raindropSplash1", 14, 124, 4, 6)
-				dropRain(5,   2.5, "raindropA", "raindropSplash1", 10, 125, 5, 5)
-				dropRain(5,   2.75, "raindropA", "raindropSplash1", 83, 135, 5, 7)
-				dropRain(5,   3, "raindropA", "raindropSplash1", 54, 146, 26, 5)
-				dropRain(5,   3.25, "raindropA", "raindropSplash1", 4, 147, 27, 5)
-				dropRain(5,   3.5, "raindropA", "raindropSplash1", 89, 143, 23, 8)
+				dropRain(5, 1.5, 0, "raindropA", "raindropSplash1", 79, 133, 13, 8)
+				dropRain(5,   2, 0, "raindropA", "raindropSplash1", 14, 124, 4, 6)
+				dropRain(5,   2.5, 0, "raindropA", "raindropSplash1", 10, 125, 5, 5)
+				dropRain(5,   2.75, 0, "raindropA", "raindropSplash1", 83, 135, 5, 7)
+				dropRain(5,   3, 0, "raindropA", "raindropSplash1", 54, 146, 26, 5)
+				dropRain(5,   3.25, 0, "raindropA", "raindropSplash1", 4, 147, 27, 5)
+				dropRain(5,   3.5, 0, "raindropA", "raindropSplash1", 89, 143, 23, 8)
 
 			// 6 
-				dropRain(6,   1, "raindropA", "raindropSplash1", 13, 133, 13, 5)
-				dropRain(6, 1.5, "raindropA", "raindropSplash1", 26, 140, 20, 7)
-				dropRain(6, 2.5, "raindropA", "raindropSplash1", 69, 145, 25, 8)
-				dropRain(6,   3, "raindropA", "raindropSplash1", 93, 126, 20, 6)
-				dropRain(6,   4, "raindropA", "raindropSplash1", 27, 130, 10, 10)
-				dropRain(6, 4.5, "raindropA", "raindropSplash1", 31, 148, 28, 7)
+				dropRain(6,   1, 0, "raindropA", "raindropSplash1", 13, 133, 13, 5)
+				dropRain(6, 1.5, 0, "raindropA", "raindropSplash1", 26, 140, 20, 7)
+				dropRain(6, 2.5, 0, "raindropA", "raindropSplash1", 69, 145, 25, 8)
+				dropRain(6,   3, 0, "raindropA", "raindropSplash1", 93, 126, 20, 6)
+				dropRain(6,   4, 0, "raindropA", "raindropSplash1", 27, 130, 10, 10)
+				dropRain(6, 4.5, 0, "raindropA", "raindropSplash1", 31, 148, 28, 7)
 
 				// snare
-				dropRain(6, 1.5, "raindropA", "raindropSplash1", 22, 143, 23, 5)
-				dropRain(6,   2, "raindropA", "raindropSplash1", 49, 147, 27, 4)
-				dropRain(6,   2.5, "raindropA", "raindropSplash1", 93, 129, 9, 7)
-				dropRain(6,   2.75, "raindropA", "raindropSplash1", 37, 135, 15, 7)
-				dropRain(6,   3, "raindropA", "raindropSplash1", 86, 144, 24, 4)
-				dropRain(6,   3.25, "raindropA", "raindropSplash1", 55, 147, 3, 10)
-				dropRain(6,   3.5, "raindropA", "raindropSplash1", 26, 143, 5, 9)
+				dropRain(6, 1.5, 0, "raindropA", "raindropSplash1", 22, 143, 23, 5)
+				dropRain(6,   2, 0, "raindropA", "raindropSplash1", 49, 147, 27, 4)
+				dropRain(6,   2.5, 0, "raindropA", "raindropSplash1", 93, 129, 9, 7)
+				dropRain(6,   2.75, 0, "raindropA", "raindropSplash1", 37, 135, 15, 7)
+				dropRain(6,   3, 0, "raindropA", "raindropSplash1", 86, 144, 24, 4)
+				dropRain(6,   3.25, 0, "raindropA", "raindropSplash1", 55, 147, 3, 10)
+				dropRain(6,   3.5, 0, "raindropA", "raindropSplash1", 26, 143, 5, 9)
 
+				// MORE
+				dropRain(6,   1, 0, "raindropA", "raindropSplash1", 43, 137, 17, 5)
+				dropRain(6, 1.5, 0, "raindropA", "raindropSplash1", 36, 130, 10, 3)
+				dropRain(6, 2.5, 0, "raindropA", "raindropSplash1", 39, 145, 25, 7)
+				dropRain(6,   3, 0, "raindropA", "raindropSplash1", 13, 126, 20, 2)
+				dropRain(6,   4, 0, "raindropA", "raindropSplash1", 77, 140, 20, 9)
+				dropRain(6, 4.5, 0, "raindropA", "raindropSplash1", 81, 148, 28, 7)
+
+				// MORE snare
+				dropRain(6, 1.5, 0, "raindropA", "raindropSplash1", 92, 143, 23, 5)
+				dropRain(6,   2, 0, "raindropA", "raindropSplash1", 39, 147, 27, 4)
+				dropRain(6,   2.5, 0, "raindropA", "raindropSplash1", 13, 129, 9, 7)
+				dropRain(6,   2.75, 0, "raindropA", "raindropSplash1", 97, 135, 15, 7)
+				dropRain(6,   3, 0, "raindropA", "raindropSplash1", 6, 144, 24, 4)
+				dropRain(6,   3.25, 0, "raindropA", "raindropSplash1", 85, 147, 3, 10)
+				dropRain(6,   3.5, 0, "raindropA", "raindropSplash1", 56, 143, 5, 9)
+
+		//rehearsal B
+// 1
+// 2
+// 3
+
+			//7  
+				dropRain(0,   0, 19000, "raindropA", "raindropSplash1", 3, 133, 13, 5)
+				dropRain(0,   0, 19300, "raindropA", "raindropSplash2", 93, 133, 13, 5)
+				dropRain(0,   0, 19500, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 19700, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 19800, "raindropA", "raindropSplash3", 43, 133, 13, 5)
+
+				startBackgroundRain(0, 0, 20051)
+				
+				dropRain(0,   0, 20100, "raindropA", "raindropSplash1", 83, 133, 13, 5)
+				dropRain(0,   0, 20250, "raindropA", "raindropSplash2", 53, 133, 13, 5)
+				dropRain(0,   0, 20380, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 20420, "raindropA", "raindropSplash1", 3, 133, 13, 5)
+				dropRain(0,   0, 20500, "raindropA", "raindropSplash2", 33, 133, 13, 5)
+				dropRain(0,   0, 20630, "raindropA", "raindropSplash3", 53, 133, 13, 5)
+				dropRain(0,   0, 20700, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 20850, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				
+				dropRain(0,   0, 21100, "raindropA", "raindropSplash1", 93, 133, 13, 5)
+				dropRain(0,   0, 21200, "raindropA", "raindropSplash2", 43, 133, 13, 5)
+				dropRain(0,   0, 21300, "raindropA", "raindropSplash3", 3, 133, 13, 5)
+				dropRain(0,   0, 21400, "raindropA", "raindropSplash1", 73, 133, 13, 5)
+				dropRain(0,   0, 21500, "raindropA", "raindropSplash2", 33, 133, 13, 5)
+				dropRain(0,   0, 21600, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 21650, "raindropA", "raindropSplash1", 23, 133, 13, 5)
+				dropRain(0,   0, 21700, "raindropA", "raindropSplash2", 93, 133, 13, 5)
+				dropRain(0,   0, 21750, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 21800, "raindropA", "raindropSplash1", 43, 133, 13, 5)
+				dropRain(0,   0, 21850, "raindropA", "raindropSplash2", 53, 133, 13, 5)
+				dropRain(0,   0, 21900, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 21950, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+
+				dropRain(0,   0, 22100, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 22150, "raindropA", "raindropSplash3", 43, 133, 13, 5)
+				dropRain(0,   0, 22200, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 22250, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 22300, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+				dropRain(0,   0, 22350, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 22400, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 22450, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 22500, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 22550, "raindropA", "raindropSplash3", 3, 133, 13, 5)
+				dropRain(0,   0, 22600, "raindropA", "raindropSplash3", 53, 133, 13, 5)
+				dropRain(0,   0, 22650, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 22700, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 22750, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+				dropRain(0,   0, 22800, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 22850, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 22900, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 22950, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+
+				
+
+				dropRain(0,   0, 23100, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 23150, "raindropA", "raindropSplash3", 43, 133, 13, 5)
+				dropRain(0,   0, 23200, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 23250, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 23300, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+				dropRain(0,   0, 23350, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 23400, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 23450, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 23500, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 23550, "raindropA", "raindropSplash3", 3, 133, 13, 5)
+				dropRain(0,   0, 23600, "raindropA", "raindropSplash3", 53, 133, 13, 5)
+				dropRain(0,   0, 23650, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 23700, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 23750, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+				dropRain(0,   0, 23800, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 23850, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 23900, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 23950, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 23100, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 23150, "raindropA", "raindropSplash3", 43, 133, 13, 5)
+				dropRain(0,   0, 23200, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 23250, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 23300, "raindropA", "raindropSplash3", 3, 133, 13, 5)
+				dropRain(0,   0, 23350, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 23400, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 23450, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 23500, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 23550, "raindropA", "raindropSplash3", 13, 133, 13, 5)
+				dropRain(0,   0, 23600, "raindropA", "raindropSplash3", 53, 133, 13, 5)
+				dropRain(0,   0, 23650, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 23700, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 23750, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+				dropRain(0,   0, 23800, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 23850, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 23900, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 23950, "raindropA", "raindropSplash3", 3, 133, 13, 5)
+
+				dropRain(0,   0, 24100, "raindropA", "raindropSplash3", 53, 133, 13, 5)
+				dropRain(0,   0, 24150, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 24200, "raindropA", "raindropSplash3", 3, 133, 13, 5)
+				dropRain(0,   0, 24250, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 24300, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 24350, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+				dropRain(0,   0, 24400, "raindropA", "raindropSplash3", 43, 133, 13, 5)
+				dropRain(0,   0, 24450, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 24500, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 24550, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 24600, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 24650, "raindropA", "raindropSplash3", 43, 133, 13, 5)
+				dropRain(0,   0, 24700, "raindropA", "raindropSplash3", 53, 133, 13, 5)
+				dropRain(0,   0, 24750, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 24800, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 24850, "raindropA", "raindropSplash3", 3, 133, 13, 5)
+				dropRain(0,   0, 24900, "raindropA", "raindropSplash3", 53, 133, 13, 5)
+				dropRain(0,   0, 24950, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 24100, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 24150, "raindropA", "raindropSplash3", 43, 133, 13, 5)
+				dropRain(0,   0, 24200, "raindropA", "raindropSplash3", 13, 133, 13, 5)
+				dropRain(0,   0, 24250, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 24300, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+				dropRain(0,   0, 24350, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 24400, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 24450, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 24500, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 24550, "raindropA", "raindropSplash3", 3, 133, 13, 5)
+				dropRain(0,   0, 24600, "raindropA", "raindropSplash3", 53, 133, 13, 5)
+				dropRain(0,   0, 24650, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 24700, "raindropA", "raindropSplash3", 73, 133, 13, 5)
+				dropRain(0,   0, 24750, "raindropA", "raindropSplash3", 33, 133, 13, 5)
+				dropRain(0,   0, 24800, "raindropA", "raindropSplash3", 63, 133, 13, 5)
+				dropRain(0,   0, 24850, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 24900, "raindropA", "raindropSplash3", 83, 133, 13, 5)
+				dropRain(0,   0, 24950, "raindropA", "raindropSplash3", 23, 133, 13, 5)
+				dropRain(0,   0, 24100, "raindropA", "raindropSplash3", 93, 133, 13, 5)
+				dropRain(0,   0, 24150, "raindropA", "raindropSplash3", 43, 133, 13, 5)
+				dropRain(0,   0, 24200, "raindropA", "raindropSplash3", 23, 133, 13, 6)
+				dropRain(0,   0, 24250, "raindropA", "raindropSplash3", 63, 133, 13, 6)
+				dropRain(0,   0, 24300, "raindropA", "raindropSplash3", 33, 133, 13, 6)
+				dropRain(0,   0, 24350, "raindropA", "raindropSplash3", 73, 133, 13, 6)
+				dropRain(0,   0, 24400, "raindropA", "raindropSplash3", 83, 133, 13, 6)
+				dropRain(0,   0, 24450, "raindropA", "raindropSplash3", 13, 133, 13, 6)
+				dropRain(0,   0, 24500, "raindropA", "raindropSplash3", 83, 133, 13, 7)
+				dropRain(0,   0, 24550, "raindropA", "raindropSplash3", 93, 133, 13, 7)
+				dropRain(0,   0, 24600, "raindropA", "raindropSplash3", 33, 133, 13, 7)
+				dropRain(0,   0, 24650, "raindropA", "raindropSplash3", 23, 133, 13, 7)
+				dropRain(0,   0, 24700, "raindropA", "raindropSplash3", 93, 133, 13, 7)
+				dropRain(0,   0, 24750, "raindropA", "raindropSplash3", 13, 133, 13, 7)
+				dropRain(0,   0, 24800, "raindropA", "raindropSplash3", 83, 133, 13, 7)
+				dropRain(0,   0, 24850, "raindropA", "raindropSplash3", 13, 133, 13, 7)
+				dropRain(0,   0, 24900, "raindropA", "raindropSplash3", 3, 133, 13, 7)
+				dropRain(0,   0, 24950, "raindropA", "raindropSplash3", 93, 133, 13, 7)
+
+				dropRain(0,   0, 25100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 25150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 25200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 25250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 25300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 25350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 25400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 25450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 25500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 25550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 25600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 25650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 25700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 25750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 25800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 25850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 25900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 25950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 26100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 26150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 26200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 26250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 26300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 26350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 26400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 26450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 26500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 26550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 26600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 26650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 26700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 26750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 26800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 26850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 26900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 26950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 27100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 27150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 27200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 27250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 27300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 27350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 27400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 27450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 27500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 27550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 27600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 27650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 27700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 27750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 27800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 27850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 27900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 27950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 28100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 28150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 28200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 28250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 28300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 28350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 28400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 28450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 28500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 28550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 28600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 28650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 28700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 28750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 28800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 28850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 28900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 28950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 29100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 29150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 29200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 29250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 29300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 29350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 29400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 29450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 29500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 29550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 29600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 29650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 29700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 29750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 29800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 29850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 29900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 29950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 30100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 30150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 30200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 30250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 30300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 30350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 30400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 30450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 30500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 30550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 30600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 30650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 30700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 30750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 30800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 30850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 30900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 30950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 31100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 31150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 31200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 31250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 31300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 31350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 31400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 31450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 31500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 31550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 31600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 31650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 31700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 31750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 31800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 31850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 31900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 31950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 32100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 32150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 32200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 32250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 32300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 32350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 32400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 32450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 32500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 32550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 32600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 32650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 32700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 32750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 32800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 32850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 32900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 32950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 33100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 33150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 33200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 33250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 33300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 33350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 33400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 33450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 33500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 33550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 33600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 33650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 33700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 33750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 33800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 33850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 33900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 33950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 34100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 34150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 34200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 34250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 34300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 34350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 34400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 34450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 34500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 34550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 34600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 34650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 34700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 34750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 34800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 34850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 34900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 34950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 35100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 35150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 35200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 35250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 35300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 35350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 35400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 35450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 35500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 35550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 35600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 35650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 35700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 35750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 35800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 35850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 35900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 35950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 36100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 36150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 36200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 36250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 36300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 36350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 36400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 36450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 36500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 36550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 36600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 36650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 36700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 36750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 36800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 36850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 36900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 36950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				dropRain(0,   0, 37100, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 37150, "raindropA", "raindropSplash3", 43, 133, 13, 8)
+				dropRain(0,   0, 37200, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 37250, "raindropA", "raindropSplash3", 63, 133, 13, 8)
+				dropRain(0,   0, 37300, "raindropA", "raindropSplash3", 33, 133, 13, 8)
+				dropRain(0,   0, 37350, "raindropA", "raindropSplash3", 73, 133, 13, 8)
+				dropRain(0,   0, 37400, "raindropA", "raindropSplash3", 83, 133, 13, 8)
+				dropRain(0,   0, 37450, "raindropA", "raindropSplash3", 93, 133, 13, 8)
+				dropRain(0,   0, 37500, "raindropA", "raindropSplash3", 23, 133, 13, 8)
+				dropRain(0,   0, 37550, "raindropA", "raindropSplash3", 3, 133, 13, 9)
+				dropRain(0,   0, 37600, "raindropA", "raindropSplash3", 53, 133, 13, 9)
+				dropRain(0,   0, 37650, "raindropA", "raindropSplash3", 93, 133, 13, 9)
+				dropRain(0,   0, 37700, "raindropA", "raindropSplash3", 73, 133, 13, 9)
+				dropRain(0,   0, 37750, "raindropA", "raindropSplash3", 33, 133, 13, 9)
+				dropRain(0,   0, 37800, "raindropA", "raindropSplash3", 63, 133, 13, 9)
+				dropRain(0,   0, 37850, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+				dropRain(0,   0, 37900, "raindropA", "raindropSplash3", 83, 133, 13, 9)
+				dropRain(0,   0, 37950, "raindropA", "raindropSplash3", 23, 133, 13, 9)
+
+				// dropRain(0,   0, 38100, "raindropA", "raindropSplash1", 93, 133, 13, 8)
+				// dropRain(0,   0, 38150, "raindropA", "raindropSplash1", 43, 133, 13, 8)
+				// dropRain(0,   0, 38200, "raindropA", "raindropSplash1", 23, 133, 13, 8)
+				// dropRain(0,   0, 38250, "raindropA", "raindropSplash1", 63, 133, 13, 8)
+				// dropRain(0,   0, 38300, "raindropA", "raindropSplash1", 33, 133, 13, 8)
+				// dropRain(0,   0, 38350, "raindropA", "raindropSplash1", 73, 133, 13, 8)
+				// dropRain(0,   0, 38400, "raindropA", "raindropSplash1", 83, 133, 13, 8)
+				// dropRain(0,   0, 38450, "raindropA", "raindropSplash1", 93, 133, 13, 8)
+				// dropRain(0,   0, 38500, "raindropA", "raindropSplash1", 23, 133, 13, 8)
+				// dropRain(0,   0, 38550, "raindropA", "raindropSplash1", 3, 133, 13, 9)
+				// dropRain(0,   0, 38600, "raindropA", "raindropSplash1", 53, 133, 13, 9)
+				// dropRain(0,   0, 38650, "raindropA", "raindropSplash1", 93, 133, 13, 9)
+				// dropRain(0,   0, 38700, "raindropA", "raindropSplash1", 73, 133, 13, 9)
+				// dropRain(0,   0, 38750, "raindropA", "raindropSplash1", 33, 133, 13, 9)
+				// dropRain(0,   0, 38800, "raindropA", "raindropSplash1", 63, 133, 13, 9)
+				// dropRain(0,   0, 38850, "raindropA", "raindropSplash1", 23, 133, 13, 9)
+				// dropRain(0,   0, 38900, "raindropA", "raindropSplash1", 83, 133, 13, 9)
+				// dropRain(0,   0, 38950, "raindropA", "raindropSplash1", 23, 133, 13, 9)
+
+		// rehearsal C
+				stopBackgroundRain(0, 0, 38000)
+
+				fadeOut(0, 0, 38000, 1000, document.getElementById("surface"))
+				removeObject(0, 0, 39000, document.getElementById("surface"))
+
+			//function changeStaticScene(measure, beat, timeOffset, fadeTime, changeClass)
+				changeStaticScene(0, 0, 39000, 2000, "bootsInside")
+				
+				changeStaticScene(0, 0, 44000, 2000, "umbrellaCorner")
+
+				changeStaticScene(0, 0, 48000, 2000, "frontDoor")
+
+				changeStaticScene(0, 0, 52500, 3000, "")
+				
 			}	
 		}
 
 	/*** raindropPlacer ***/
-	document.addEventListener("click", getCoordinates)
-	function getCoordinates(event) {
-		console.log(event.clientX / window.innerWidth * 100, 100 - (event.clientY / window.innerHeight * 100))
-	}
-}
+		document.getElementById("clock").addEventListener("click", function() {
+			debugger
+		})
+
+		document.addEventListener("click", getCoordinates)
+		function getCoordinates(event) {
+			console.log(event.clientX / window.innerWidth * 100, 100 - (event.clientY / window.innerHeight * 100))
+		}
+})

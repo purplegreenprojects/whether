@@ -4,8 +4,29 @@ html, body, #container {
 	border: 0px;
 	height: 100vh;
 	width: 100vw;
+	overflow: hidden;
 /*	background-color: lightblue;
 */}
+
+#preload, #preload div {
+	height: 0px;
+	width: 0px;
+	opacity: 0;
+}
+
+
+
+#clock {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	z-index: 101;
+	background-color: gray;
+	color: lightgray;
+	font-size: 24px;
+	height: 80px;
+	width: 120px;
+}
 
 #blackBackground {
 	background-color: black;
@@ -21,30 +42,188 @@ html, body, #container {
 	left: 0px;
 	height: 30vh;
 	width: 100vw;
-	background-color: lightgray;
-	opacity: 0;
+	background-color: white;
+	border-color: lightgray;
+	border: 10px 0px 0px 0px;
+	border-top-style: groove;
+	opacity: 1;
+	z-index: 2
+}
+
+#background {
+	height: 100vh;
+	width: 100vw;
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1
+}
+
+	
+#backgroundRain1 {
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/rain1a.png");
+	background-size: auto 100%;
+	position: absolute;
+	left: 0px;
+}
+
+#backgroundRain2 {
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/rain1b.png");
+	background-size: auto 100%;
+	position: absolute;
+	left: 0px;
+}
+
+#backgroundRain3 {
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/rain2a.png");
+	background-size: auto 100%;
+	position: absolute;
+	left: 0px;
+}
+
+#backgroundRain4 {
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/rain3a.png");
+	background-size: auto 100%;
+	position: absolute;
+	left: 0px;
+}
+
+#backgroundRain5 {
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/rain3d.png");
+	background-size: auto 100%;
+	position: absolute;
+	left: 0px;
+}
+
+#backgroundRain6 {
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/rain3e.png");
+	background-size: auto 100%;
+	position: absolute;
+	left: 0px;
+}
+
+#backgroundRain7 {
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/rain2e.png");
+	background-size: auto 100%;
+	position: absolute;
+	left: 0px;
+}
+
+
+
+#backgroundRain8 {
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/rain2a.png");
+	background-size: auto 100%;
+	position: absolute;
+	left: 0px;
 }
 
 .raindropA {
-	background-image: url("raindropA.png");
+	background-image: url("images/raindropA.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
 	position: absolute;
+	z-index: 3;
 }
 
 .raindropSplash1 {
-	background-image: url("raindropSplash1.png");
+	background-image: url("images/raindropSplash1.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
 	position: absolute;
+	z-index: 3;
+}
+
+.raindropSplash2 {
+	background-image: url("images/raindropSplash2.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+	z-index: 3;
+}
+
+.raindropSplash3 {
+	background-image: url("images/raindropSplash3.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+	z-index: 3;
 }
 
 .raindropPuddle {
-	background-image: url("raindropPuddle.png");
+	background-image: url("images/raindropPuddle.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	background-position: center;
 	position: absolute;
+	z-index: 3;
+}
+
+#staticSceneA {
+	height: 800px;
+	width: 800px;
+	transform: translateX(-50%) translateY(-50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	opacity: 0;
+/*	background-color: blue;
+*/}
+
+#staticSceneB {
+	height: 800px;
+	width: 800px;
+	transform: translateX(-50%) translateY(-50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	opacity: 0;
+/*	background-color: blue;
+*/}
+
+.bootsInside {
+	background-image: url("images/bootsInside.png");
+	height: 800px;
+	width: 800px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+.umbrellaCorner {
+	background-image: url("images/umbrellaCorner.png");
+	height: 800px;
+	width: 800px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+.frontDoor {
+	background-image: url("images/frontDoor.jpg");
+	height: 800px;
+	width: 800px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
 }
